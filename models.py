@@ -7,6 +7,7 @@ class User(db.Model):
     password = db.Column(db.String(10), nullable=False)
     full_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
+    isActive = db.Column(db.Boolean, default = False)
 
     def __repr__(self):
         return "<User %r>" % self.id

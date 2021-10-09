@@ -1,7 +1,7 @@
 """
 from flask import Flask, jsonify, request
 from flask_migrate import Migrate
-
+test
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:'

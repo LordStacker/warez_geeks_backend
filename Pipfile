@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-cors = "*"
 flask-script = "*"
+ipdb = "*"
 
 [dev-packages]
 

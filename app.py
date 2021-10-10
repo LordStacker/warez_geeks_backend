@@ -29,7 +29,18 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
     # create a new token with the user id inside
     return jsonify({ "msg": "Logged in succesfully" })
-    
+@app.route("/Profile", methods=["PUT"])
+@cross_origin()
+def Profile(): 
+    user = Profile
+    body = request.get_json(force=False)
+    role = body.get("role", None)
+    email = body.get("email", None)
+    user.role = role
+    user.email = email
+
+    db.session.commit()
+    return ("done")
 
 if __name__ == '__main__':
     app.run(host='localhost', port=8080)

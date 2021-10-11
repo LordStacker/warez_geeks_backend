@@ -16,7 +16,6 @@ class User(db.Model):
         return {
             'id': self.id,
             'email': self.email,
-            'password': self.password,
             'full_name': self.full_name,
             'last_name': self.last_name,
             'isActive': self.isActive     

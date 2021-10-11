@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import db, User
+from models import Profile, db, User
 from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -29,18 +29,20 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
     # create a new token with the user id inside
     return jsonify({ "msg": "Logged in succesfully" })
-@app.route("/Profile", methods=["PUT"])
+
+@app.route("/profile", methods=["POST"])
 @cross_origin()
-def Profile(): 
-    user = Profile
-    body = request.get_json(force=False)
-    role = body.get("role", None)
-    email = body.get("email", None)
-    user.role = role
-    user.email = email
-
+def register():
+    request.get_json(force=True)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    full_name = request.json.get("full_name", None)
+    last_name= request.json.get("last_name", None)
+    
+    user = User(email=email, password=password, full_name=full_name, last_name=last_name)
+    db.session.add(user)
     db.session.commit()
-    return ("done")
 
-if __name__ == '__main__':
+    return jsonify(user.serialize(),201)
+if __name__ == "__main__":
     app.run(host='localhost', port=8080)

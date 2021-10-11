@@ -9,7 +9,8 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-cors = "*"
 flask-script = "*"
-flask-jwt-extended = "*"
+ipdb = "*"
+
 
 [dev-packages]
 

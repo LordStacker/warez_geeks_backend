@@ -22,13 +22,14 @@ def login():
     print(request.json)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    # Query your database for username and password
+
     user = User.query.filter_by(email=email, password=password).first()
     if user is None:
-        # the user was not found on the database
+
         return jsonify({"msg": "Bad username or password"}), 401
-    # create a new token with the user id inside
-    return jsonify({ "msg": "Logged in succesfully" })
+
+    return jsonify({"msg": "Logged in succesfully"})
+
 
 @app.route("/profile", methods=["POST"])
 @cross_origin()
@@ -37,12 +38,28 @@ def register():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     full_name = request.json.get("full_name", None)
-    last_name= request.json.get("last_name", None)
-    
-    user = User(email=email, password=password, full_name=full_name, last_name=last_name)
+    last_name = request.json.get("last_name", None)
+    knowledge = request.json.get("knowledge", None)
+    phone = request.json.get("phone", None)
+    question = request.json.get("question", None)
+    answer = request.json.get("answer", None)
+    username = request.json.get("username", None)
+
+    user = User(email=email,
+                password=password,
+                full_name=full_name,
+                last_name=last_name,
+                knowledge=knowledge,
+                phone=phone,
+                question=question,
+                answer=answer,
+                username=username)
+
     db.session.add(user)
     db.session.commit()
 
-    return jsonify(user.serialize(),201)
+    return jsonify(user.serialize(), 201)
+
+
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)

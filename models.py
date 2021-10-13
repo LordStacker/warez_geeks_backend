@@ -4,10 +4,16 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(50), nullable =False)
-    password = db.Column(db.String(10), nullable=False)
-    full_name = db.Column(db.String(20), nullable=False)
-    last_name = db.Column(db.String(20), nullable=False)
-    isActive = db.Column(db.Boolean, default = False)
+    password = db.Column(db.String(50), nullable=False)
+    full_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    knowledge = db.Column(db.String(40), nullable = False)
+    phone = db.Column(db.String(12), nullable= False)
+    question = db.Column(db.String(50), nullable = False)
+    answer = db.Column(db.String(50), nullable = False)
+    username = db.Column(db.String(50), nullable = False)
+   #role = db.Column(db.Boolean, default = False)
+   # isActive = db.Column(db.Boolean, default = False)
 
     def __repr__(self):
         return "<User %r>" % self.id
@@ -18,7 +24,7 @@ class User(db.Model):
             'email': self.email,
             'full_name': self.full_name,
             'last_name': self.last_name,
-            'isActive': self.isActive     
+            #'isActive': self.isActive     
         }
     def serialize_just_username(self):
         return {
@@ -28,9 +34,9 @@ class User(db.Model):
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     role = db.Column(db.String(15), nullable = False)
-    question = db.Column(db.String(20), nullable = False)
-    answer = db.Column(db.String(20), nullable = False)
-    knowledge = db.Column(db.String(20), nullable = False)
+    question = db.Column(db.String(50), nullable = False)
+    answer = db.Column(db.String(50), nullable = False)
+    knowledge = db.Column(db.String(50), nullable = False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     rating = db.relationship('Rating', backref='profile', lazy=True)
     request = db.relationship('Request', backref='profile', lazy=True)
@@ -79,8 +85,8 @@ class Request(db.Model):
         }
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    id_profile = db.Column(db.String(20), nullable = False)
-    rating = db.Column(db.String(20), nullable = False)
+    id_profile = db.Column(db.String(50), nullable = False)
+    rating = db.Column(db.String(50), nullable = False)
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable = False)
 
     def __repr__(self):
@@ -99,7 +105,7 @@ class Rating(db.Model):
         }
 class Service(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name_service = db.Column(db.String(20), nullable = False)
+    name_service = db.Column(db.String(50), nullable = False)
 
     def __repr__(self):
         return "<Service %r>" % self.id
@@ -116,8 +122,8 @@ class Service(db.Model):
         }
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key = True )
-    date = db.Column(db.String(20), nullable = False)
-    hour = db.Column(db.String(20), nullable = False)
+    date = db.Column(db.String(50), nullable = False)
+    hour = db.Column(db.String(50), nullable = False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __repr__(self):

@@ -18,15 +18,20 @@ Migrate(app, db)
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():
-    request.get_json(force=True)
+    #request.get_json(force=True)
     print(request.json)
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
-    user = User.query.filter_by(email=email, password=password).first()
-    if user is None:
+   # user = User.query.filter_by(email=email, password=password).first()
+    username = User.query.filter_by(email=email).first()
+    if username is None:
+        return jsonify({"msg": "email invalid or misspelled"}), 401
+    else:
+        user = User.query.filter_by(email=email, password=password).first()
+        if user is None:
 
-        return jsonify({"msg": "Bad username or password"}), 401
+            return jsonify({"msg": "Bad password"}), 401
 
     return jsonify({"msg": "Logged in succesfully"})
 

@@ -9,11 +9,10 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-cors = "*"
 flask-script = "*"
+autopep8 = "*"
 ipdb = "*"
 
-
 [dev-packages]
-autopep8 = "*"
 
 [requires]
 python_version = "3.9"

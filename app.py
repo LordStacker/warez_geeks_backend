@@ -21,6 +21,7 @@ def login():
     #request.get_json(force=True)
     print(request.json)
     email = request.json.get("email", None)
+    print(email)
     password = request.json.get("password", None)
 
    # user = User.query.filter_by(email=email, password=password).first()

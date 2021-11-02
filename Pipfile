@@ -10,6 +10,8 @@ flask-migrate = "*"
 flask-cors = "*"
 flask-script = "*"
 ipdb = "*"
+flask-jwt-extended = "*"
+flask-bcrypt = "*"
 
 [dev-packages]
 autopep8 = "*"

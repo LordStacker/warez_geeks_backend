@@ -1,10 +1,11 @@
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(50), nullable =False)
-    password = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable =False, unique= True)
+    password = db.Column(db.String(255), nullable=False)
     full_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     knowledge = db.Column(db.String(40), nullable = False)
@@ -122,8 +123,8 @@ class Service(db.Model):
         }
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key = True )
-    date = db.Column(db.String(50), nullable = False)
-    hour = db.Column(db.String(50), nullable = False)
+    start = db.Column(db.DateTime, nullable = False)
+    end = db.Column(db.DateTime, nullable = False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __repr__(self):
@@ -133,12 +134,12 @@ class Availability(db.Model):
         return {
             'id': self.id,
             'date': self.date,
-            'hour': self.hour,
+            'time_of_day': self.time_of_day,
             'id_user': self.id_user   
         }
     def serialize_just_Availability(self):
         return {
             'id': self.id,
             'date': self.date,
-            'hour': self.hour
+            'time_of_day': self.time_of_day
         }

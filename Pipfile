@@ -13,6 +13,7 @@ ipdb = "*"
 flask-jwt-extended = "*"
 flask-bcrypt = "*"
 
+
 [dev-packages]
 autopep8 = "*"
 

@@ -115,8 +115,11 @@ def me():
         "current_user": current_user,
         "current_user_token_expires": datetime.fromtimestamp(current_user_token_expires)
     }), 200
-
-
+#@app.route('user/<int>/availability', methods=["POST"])
+#@jwt_required()
+#def add_availability():
+    #user id
+        #loop en libreria
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)

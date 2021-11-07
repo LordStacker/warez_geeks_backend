@@ -113,9 +113,10 @@ def me():
     current_user_token_expires = get_jwt()["exp"]
     return jsonify({
         "current_user": current_user,
-        "current_user_token_expires": datetime.fromtimestamp(current_user_token_expires)
+        "current_user_token_expires": datetime.
+        fromtimestamp(current_user_token_expires)
     }), 200
-#@app.route('user/<int>/availability', methods=["POST"])
+#@app.route('user/availability', methods=["POST"])
 #@jwt_required()
 #def add_availability():
     #user id

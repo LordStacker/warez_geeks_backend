@@ -22,6 +22,7 @@ Migrate(app, db)
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
 
+
 @app.route("/register", methods=["POST"])
 @cross_origin()
 def register():
@@ -58,7 +59,8 @@ def register():
         # validating password
         password_regex = '^.*(?=.{4,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$'
         if re.search(password_regex, password):
-            password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+            password_hash = bcrypt.generate_password_hash(
+                password).decode('utf-8')
             user.password = password_hash
         else:
             return jsonify({
@@ -73,10 +75,12 @@ def register():
         return jsonify({
             "msg": "user already exist"
         }), 400
-@app.route("/documentation", methods=["GET","POST"])
+
+
+@app.route("/documentation", methods=["GET", "POST"])
 def Documents():
     if request.method == "GET":
-        documentation = Documentation.query.all ()
+        documentation = Documentation.query.all()
         documentation = list(map(lambda x: x.serialize(), documentation))
         return jsonify(documentation)
         if documentation is not None:
@@ -92,6 +96,14 @@ def Documents():
         db.session.commit()
 
     return jsonify(documentation.serialize())
+
+
+@app.route("/documentation/<int:id>", methods=["GET"])
+def Documentsbyid(id):
+    documentation = Documentation.query.get(id)
+    return jsonify(documentation.serialize())
+
+
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():
@@ -124,6 +136,8 @@ def login():
         return jsonify({
             "msg": "wrong credentials"
         }), 400
+
+
 @app.route('/me', methods=["POST"])
 @jwt_required()
 def me():
@@ -134,11 +148,12 @@ def me():
         "current_user_token_expires": datetime.
         fromtimestamp(current_user_token_expires)
     }), 200
-#@app.route('user/availability', methods=["POST"])
-#@jwt_required()
-#def add_availability():
-    #user id
-        #loop en libreria
+# @app.route('user/availability', methods=["POST"])
+# @jwt_required()
+# def add_availability():
+    # user id
+    # loop en libreria
+
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)

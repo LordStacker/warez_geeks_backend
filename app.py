@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import Profile, db, User
+from models import Documentation, Profile, db, User
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from flask_bcrypt import Bcrypt, check_password_hash
@@ -73,7 +73,25 @@ def register():
         return jsonify({
             "msg": "user already exist"
         }), 400
+@app.route("/documentation", methods=["GET","POST"])
+def Documents():
+    if request.method == "GET":
+        documentation = Documentation.query.all ()
+        documentation = list(map(lambda x: x.serialize(), documentation))
+        return jsonify(documentation)
+        if documentation is not None:
+            return jsonify(documentation)
+    else:
+        documentation = Documentation()
+        documentation.title = request.json.get("title")
+        documentation.intro = request.json.get("intro")
+        documentation.info = request.json.get("info")
+        documentation.info_two = request.json.get("info_two")
 
+        db.session.add(documentation)
+        db.session.commit()
+
+    return jsonify(documentation.serialize())
 @app.route("/login", methods=["POST"])
 @cross_origin()
 def login():

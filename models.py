@@ -133,15 +133,15 @@ class Availability(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'date': self.date,
-            'time_of_day': self.time_of_day,
+            'start': self.start,
+            'end': self.end,
             'id_user': self.id_user   
         }
     def serialize_just_Availability(self):
         return {
             'id': self.id,
-            'date': self.date,
-            'time_of_day': self.time_of_day
+            'start': self.start,
+            'end': self.end
         }
 class Documentation(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -160,7 +160,7 @@ class Documentation(db.Model):
             'intro': self.intro,
             'info': self.info
         }
-    def serialize_just_Availability(self):
+    def serialize_just_Documentation(self):
         return {
             'id': self.id,
             'title': self.title,

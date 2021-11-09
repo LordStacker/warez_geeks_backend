@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import Documentation, Profile, db, User
+from models import Documentation, Profile, db, User, Availability
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from flask_bcrypt import Bcrypt, check_password_hash
@@ -153,6 +153,23 @@ def me():
 # def add_availability():
     # user id
     # loop en libreria
+
+
+@app.route('/availability/teacher', methods=["POST"])
+def availability():
+    availability = Availability()
+    start_date = request.json.get("start")
+    #start_date = datetime.fromisoformat(start_date)
+    availability.start = start_date
+    end_date = request.json.get("end")
+    #end_date = datetime.fromisoformat(end_date)
+    availability.end = end_date
+    id_user = request.json.get("id_user")
+    availability.id_user = id_user    
+
+    db.session.add(availability)
+    db.session.commit()
+    return jsonify(availability.serialize())
 
 
 if __name__ == "__main__":

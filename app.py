@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import Profile, db, User
+from models import Documentation, Profile, db, User, Availability
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from flask_bcrypt import Bcrypt, check_password_hash
@@ -21,6 +21,7 @@ db.init_app(app)
 Migrate(app, db)
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
+
 
 @app.route("/register", methods=["POST"])
 @cross_origin()
@@ -58,7 +59,8 @@ def register():
         # validating password
         password_regex = '^.*(?=.{4,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$'
         if re.search(password_regex, password):
-            password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+            password_hash = bcrypt.generate_password_hash(
+                password).decode('utf-8')
             user.password = password_hash
         else:
             return jsonify({
@@ -73,6 +75,34 @@ def register():
         return jsonify({
             "msg": "user already exist"
         }), 400
+
+
+@app.route("/documentation", methods=["GET", "POST"])
+def Documents():
+    if request.method == "GET":
+        documentation = Documentation.query.all()
+        documentation = list(map(lambda x: x.serialize(), documentation))
+        return jsonify(documentation)
+        if documentation is not None:
+            return jsonify(documentation)
+    else:
+        documentation = Documentation()
+        documentation.title = request.json.get("title")
+        documentation.intro = request.json.get("intro")
+        documentation.info = request.json.get("info")
+        documentation.info_two = request.json.get("info_two")
+
+        db.session.add(documentation)
+        db.session.commit()
+
+    return jsonify(documentation.serialize())
+
+
+@app.route("/documentation/<int:id>", methods=["GET"])
+def Documentsbyid(id):
+    documentation = Documentation.query.get(id)
+    return jsonify(documentation.serialize())
+
 
 @app.route("/login", methods=["POST"])
 @cross_origin()
@@ -106,6 +136,8 @@ def login():
         return jsonify({
             "msg": "wrong credentials"
         }), 400
+
+
 @app.route('/me', methods=["POST"])
 @jwt_required()
 def me():
@@ -116,11 +148,30 @@ def me():
         "current_user_token_expires": datetime.
         fromtimestamp(current_user_token_expires)
     }), 200
-#@app.route('user/availability', methods=["POST"])
-#@jwt_required()
-#def add_availability():
-    #user id
-        #loop en libreria
+# @app.route('user/availability', methods=["POST"])
+# @jwt_required()
+# def add_availability():
+    # user id
+    # loop en libreria
+
+
+@app.route('/availability/teacher', methods=["POST"])
+def availability():
+    availability = Availability()
+    start_date = request.json.get("start")
+    #start_date = datetime.fromisoformat(start_date)
+    #updating
+    availability.start = start_date
+    end_date = request.json.get("end")
+    #end_date = datetime.fromisoformat(end_date)
+    availability.end = end_date
+    id_user = request.json.get("id_user")
+    availability.id_user = id_user    
+
+    db.session.add(availability)
+    db.session.commit()
+    return jsonify(availability.serialize())
+
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)

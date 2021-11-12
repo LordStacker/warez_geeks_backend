@@ -160,6 +160,7 @@ def availability():
     availability = Availability()
     start_date = request.json.get("start")
     #start_date = datetime.fromisoformat(start_date)
+    #updating
     availability.start = start_date
     end_date = request.json.get("end")
     #end_date = datetime.fromisoformat(end_date)

@@ -12,6 +12,7 @@ class User(db.Model):
     phone = db.Column(db.String(12), nullable= False)
     question = db.Column(db.String(50), nullable = False)
     answer = db.Column(db.String(50), nullable = False)
+    #role = db.Column(db.Integer, default=False)
     username = db.Column(db.String(50), nullable = False)
    #role = db.Column(db.Boolean, default = False)
    # isActive = db.Column(db.Boolean, default = False)
@@ -25,13 +26,16 @@ class User(db.Model):
             'email': self.email,
             'full_name': self.full_name,
             'last_name': self.last_name,
+            #'role': self.role,
+            'username':self.username
             #'isActive': self.isActive     
         }
     def serialize_just_username(self):
         return {
             'id': self.id,
-            'email': self.email
+            'username':self.username
         }
+"""
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     role = db.Column(db.String(15), nullable = False)
@@ -59,13 +63,14 @@ class Profile(db.Model):
             'question': self.question,
             'answer': self.answer
         }
+"""
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     request_status = db.Column(db.String(50), nullable = False)
     date = db.Column(db.String(50), nullable = False)
     hour = db.Column(db.String(10), nullable = False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    id_profile = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable = False)
+    #id_profile = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable = False)
 
     def __repr__(self):
         return "<Request %r>" % self.id
@@ -84,6 +89,7 @@ class Request(db.Model):
             'date': self.date,
             'hour': self.hour
         }
+"""""
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     id_profile = db.Column(db.String(50), nullable = False)
@@ -104,6 +110,7 @@ class Rating(db.Model):
         return {
             'id_profile': self.id_profile
         }
+"""
 class Service(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name_service = db.Column(db.String(50), nullable = False)

@@ -34,6 +34,7 @@ def register():
     knowledge = request.json.get("knowledge", None)
     phone = request.json.get("phone", None)
     question = request.json.get("question", None)
+    role = request.json.get("role", None)
     answer = request.json.get("answer", None)
     username = request.json.get("username", None)
     user = User.query.filter_by(email=email, username=username).first()
@@ -46,6 +47,7 @@ def register():
         user.phone = phone
         user.answer = answer
         user.username = username
+        user.role = role
 
         # validating email
         email_regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'

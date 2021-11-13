@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
-from models import Documentation, Profile, db, User, Availability
+from models import Documentation, db, User, Availability
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from flask_bcrypt import Bcrypt, check_password_hash
@@ -78,7 +78,7 @@ def register():
 
 
 @app.route("/documentation", methods=["GET", "POST"])
-def Documents():
+def documents():
     if request.method == "GET":
         documentation = Documentation.query.all()
         documentation = list(map(lambda x: x.serialize(), documentation))
@@ -141,10 +141,12 @@ def login():
 @app.route('/me', methods=["POST"])
 @jwt_required()
 def me():
+    user = User()
     current_user = get_jwt_identity()
     current_user_token_expires = get_jwt()["exp"]
     return jsonify({
         "current_user": current_user,
+        #"user": user.serialize_just_username(),
         "current_user_token_expires": datetime.
         fromtimestamp(current_user_token_expires)
     }), 200

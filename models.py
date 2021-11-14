@@ -12,7 +12,7 @@ class User(db.Model):
     phone = db.Column(db.String(12), nullable= False)
     question = db.Column(db.String(50), nullable = False)
     answer = db.Column(db.String(50), nullable = False)
-    #role = db.Column(db.Integer, default=False)
+    role = db.Column(db.Integer, nullable = False)
     username = db.Column(db.String(50), nullable = False)
    #role = db.Column(db.Boolean, default = False)
    # isActive = db.Column(db.Boolean, default = False)
@@ -26,7 +26,7 @@ class User(db.Model):
             'email': self.email,
             'full_name': self.full_name,
             'last_name': self.last_name,
-            #'role': self.role,
+            'role': self.role,
             'username':self.username
             #'isActive': self.isActive     
         }

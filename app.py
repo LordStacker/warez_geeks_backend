@@ -176,6 +176,10 @@ def availability():
     db.session.commit()
     return jsonify(availability.serialize())
 
+@app.route('/check/availability', methods=["GET"])
+def checkAvailability():
+    print("Hola")
+
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080)
